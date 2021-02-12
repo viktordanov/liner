@@ -26,8 +26,8 @@ type commonState struct {
 	columns           int
 	killRing          *ring.Ring
 	ctrlCAborts       bool
-	ctrlCAction       func(s *State, line []rune, pos *int)
-	ctrlVAction       func(s *State, line []rune, pos *int)
+	ctrlCAction       func(line []rune, pos *int)
+	ctrlVAction       func(line []rune, pos *int)
 	r                 *bufio.Reader
 	tabStyle          TabStyle
 	multiLineMode     bool
@@ -233,13 +233,13 @@ func (s *State) SetCtrlCAborts(aborts bool) {
 
 // SetCtrlCAction sets whether Prompt on a supported terminal will execute the
 // given callback when Ctrl-C is pressed. Overridden by SetCtrlCAborts
-func (s *State) SetCtrlCAction(action func(*State, []rune, *int)) {
+func (s *State) SetCtrlCAction(action func([]rune, *int)) {
 	s.ctrlCAction = action
 }
 
 // SetCtrlVAction sets whether Prompt on a supported terminal will execute the
 // given callback when Ctrl-V is pressed. Overridden by SetCtrlCAborts
-func (s *State) SetCtrlVAction(action func(*State, []rune, *int)) {
+func (s *State) SetCtrlVAction(action func([]rune, *int)) {
 	s.ctrlVAction = action
 }
 

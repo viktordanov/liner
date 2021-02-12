@@ -789,7 +789,7 @@ mainLoop:
 					return "", ErrPromptAborted
 				}
 				if s.ctrlCAction != nil {
-					s.ctrlCAction(s, line, &pos)
+					s.ctrlCAction(line, &pos)
 				}
 				line = line[:0]
 				pos = 0
@@ -832,7 +832,8 @@ mainLoop:
 			// DO NOTHING
 			case ctrlV:
 				if s.ctrlVAction != nil {
-					s.ctrlVAction(s, line, &pos)
+					s.ctrlVAction(line, &pos)
+					s.needRefresh = true
 				}
 			// Unused keys
 			case ctrlG, ctrlO, ctrlQ, ctrlS, ctrlX, ctrlZ:
@@ -1093,7 +1094,7 @@ mainLoop:
 					return "", ErrPromptAborted
 				}
 				if s.ctrlCAction != nil {
-					s.ctrlCAction(s, line, &pos)
+					s.ctrlCAction(line, &pos)
 				}
 				line = line[:0]
 				pos = 0
@@ -1101,7 +1102,8 @@ mainLoop:
 				s.restartPrompt()
 			case ctrlV:
 				if s.ctrlVAction != nil {
-					s.ctrlVAction(s, line, &pos)
+					s.ctrlVAction(line, &pos)
+					s.needRefresh = true
 				}
 			// Unused keys
 			case esc, tab, ctrlA, ctrlB, ctrlE, ctrlF, ctrlG, ctrlK, ctrlN, ctrlO, ctrlP, ctrlQ, ctrlR, ctrlS,
