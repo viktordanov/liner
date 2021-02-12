@@ -26,6 +26,8 @@ type commonState struct {
 	columns           int
 	killRing          *ring.Ring
 	ctrlCAborts       bool
+	ctrlCAction		  func(line []rune, pos *int)
+	ctrlVAction		  func(line []rune, pos *int)
 	r                 *bufio.Reader
 	tabStyle          TabStyle
 	multiLineMode     bool

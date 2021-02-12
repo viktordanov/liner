@@ -788,6 +788,9 @@ mainLoop:
 				if s.ctrlCAborts {
 					return "", ErrPromptAborted
 				}
+				if s.ctrlCAction != nil {
+					s.ctrlCAction(line, &pos)
+				}
 				line = line[:0]
 				pos = 0
 				fmt.Print(prompt)
@@ -826,9 +829,13 @@ mainLoop:
 				goto haveNext
 			// Catch keys that do nothing, but you don't want them to beep
 			case esc:
-				// DO NOTHING
+			// DO NOTHING
+			case ctrlV:
+				if s.ctrlVAction != nil {
+					s.ctrlVAction(line, &pos)
+				}
 			// Unused keys
-			case ctrlG, ctrlO, ctrlQ, ctrlS, ctrlV, ctrlX, ctrlZ:
+			case ctrlG, ctrlO, ctrlQ, ctrlS, ctrlX, ctrlZ:
 				fallthrough
 			// Catch unhandled control codes (anything <= 31)
 			case 0, 28, 29, 30, 31:
@@ -1085,13 +1092,20 @@ mainLoop:
 				if s.ctrlCAborts {
 					return "", ErrPromptAborted
 				}
+				if s.ctrlCAction != nil {
+					s.ctrlCAction(line, &pos)
+				}
 				line = line[:0]
 				pos = 0
 				fmt.Print(prompt)
 				s.restartPrompt()
+			case ctrlV:
+				if s.ctrlVAction != nil {
+					s.ctrlVAction(line, &pos)
+				}
 			// Unused keys
 			case esc, tab, ctrlA, ctrlB, ctrlE, ctrlF, ctrlG, ctrlK, ctrlN, ctrlO, ctrlP, ctrlQ, ctrlR, ctrlS,
-				ctrlT, ctrlU, ctrlV, ctrlW, ctrlX, ctrlY, ctrlZ:
+				ctrlT, ctrlU, ctrlW, ctrlX, ctrlY, ctrlZ:
 				fallthrough
 			// Catch unhandled control codes (anything <= 31)
 			case 0, 28, 29, 30, 31:

@@ -1,5 +1,10 @@
+_This fork is intended for use in [Abacus](https://github.com/viktordanov/abacus) and it implements support for optional Ctrl-C, Ctrl-V actions._
+
+_`line.SetCtrlCAborts(true)` overrides any custom Ctrl-C action_
+
 Liner
 =====
+
 
 Liner is a command line editor with history. It was inspired by linenoise;
 everything Unix-like is a VT100 (or is trying very hard to be). If your
