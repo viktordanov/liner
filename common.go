@@ -26,8 +26,8 @@ type commonState struct {
 	columns           int
 	killRing          *ring.Ring
 	ctrlCAborts       bool
-	ctrlCAction		  func(line []rune, pos *int)
-	ctrlVAction		  func(line []rune, pos *int)
+	ctrlCAction       func(line []rune, pos *int)
+	ctrlVAction       func(line []rune, pos *int)
 	r                 *bufio.Reader
 	tabStyle          TabStyle
 	multiLineMode     bool
@@ -229,6 +229,18 @@ type ModeApplier interface {
 // (and Prompt does not return) regardless of the value passed to SetCtrlCAborts.
 func (s *State) SetCtrlCAborts(aborts bool) {
 	s.ctrlCAborts = aborts
+}
+
+// SetCtrlCAction sets whether Prompt on a supported terminal will execute the
+// given callback when Ctrl-C is pressed. Overridden by SetCtrlCAborts
+func (s *State) SetCtrlCAction(action func([]rune, *int)) {
+	s.ctrlCAction = action
+}
+
+// SetCtrlVAction sets whether Prompt on a supported terminal will execute the
+// given callback when Ctrl-V is pressed. Overridden by SetCtrlCAborts
+func (s *State) SetCtrlVAction(action func([]rune, *int)) {
+	s.ctrlVAction = action
 }
 
 // SetMultiLineMode sets whether line is auto-wrapped. The default is false (single line).
